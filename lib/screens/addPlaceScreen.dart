@@ -9,6 +9,13 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
+<<<<<<< Updated upstream
+=======
+  final _titleController = TextEditingController();
+
+  _selectImage<File>
+  
+>>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     return Scaffold(
