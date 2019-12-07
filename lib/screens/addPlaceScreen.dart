@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/image_input.dart';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import '../providers/userPlaces.dart';
 
 class AddPlaceScreen extends StatefulWidget {
@@ -28,8 +28,8 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return;
     }
 
-    Provider.of<UserserPlaces>(content, listen: false)
-        .addPlace(_titleController.text, pickedImage);
+    Provider.of<UserPlaces>(context, listen: false)
+        .addPlace(_titleController.text, _pickedImage);
     Navigator.of(context).pop();
   }
 
