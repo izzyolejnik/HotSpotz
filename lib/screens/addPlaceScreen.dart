@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import '../widgets/image_input.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
+import '../providers/userPlaces.dart';
+
 class AddPlaceScreen extends StatefulWidget {
 
   static const routeName = '/ add-place';
@@ -9,19 +13,26 @@ class AddPlaceScreen extends StatefulWidget {
 }
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
+
   final _titleController = TextEditingController();
+  File _pickedImage;
 
-  _selectImage<File>
-  
->>>>>>> Stashed changes
-=======
-  final _titleController = TextEditingController();
+  void _selectImage(File pickedImage){
+    _pickedImage = pickedImage;
+  }
 
+  void _savePlace() {
+    // Doesn't let user save place is title is empty or if no picture
+    // Can change, add button or error message as well
+    if(_titleController.text.isEmpty || _pickedImage == null){
+      return;
+    }
 
->>>>>>> 6c2176e4aa32c7935e5ce27bf7252b3afcd9b703
+    Provider.of<UserserPlaces>(content, listen: false)
+        .addPlace(_titleController.text, pickedImage);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +62,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
         RaisedButton.icon(
           icon: Icon(Icons.add), 
           label: Text('Add Place'),
-          onPressed: () {},
+          onPressed: _savePlace,
           elevation: 0,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           color: Theme.of(context).accentColor,
