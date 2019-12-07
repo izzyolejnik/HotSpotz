@@ -7,7 +7,7 @@ class PlacesListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HOT SPOTZ'),
+        title: Text('Your Hot Spotz'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add_box), 
@@ -17,7 +17,8 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: CircularProgressIndicator())
+      body: Center(child: CircularProgressIndicator(),
+      )
     );
   }
 }
