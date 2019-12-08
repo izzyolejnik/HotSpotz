@@ -22,7 +22,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   }
 
   void _savePlace() {
-    // Doesn't let user save place is title is empty or if no picture
+    // Doesn't let user save place if title is empty or if no picture
     // Can change, add button or error message as well
     if(_titleController.text.isEmpty || _pickedImage == null){
       return;
