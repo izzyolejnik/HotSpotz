@@ -53,7 +53,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   controller: _titleController,
                 ),
                 SizedBox(height: 10,),
-                ImageInput(),
+                ImageInput(_selectImage),
               ],
             ),
            ),
