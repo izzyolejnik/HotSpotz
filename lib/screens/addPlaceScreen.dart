@@ -31,7 +31,9 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   void _savePlace() {
     // Doesn't let user save place if title is empty
-    if(_titleController.text.isEmpty){
+    if(_titleController.text.isEmpty ||
+        _pickedImage == null ||
+        _reviewController.text.isEmpty){
       return;
     }
 
