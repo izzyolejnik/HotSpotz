@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:provider/provider.dart';
 import '../providers/userPlaces.dart';
 import '../widgets/locationInput.dart';
+import '../models/place.dart';
 
 class AddPlaceScreen extends StatefulWidget {
 
@@ -19,20 +20,23 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _reviewController = TextEditingController();
 
   File _pickedImage;
+  PlaceLocation _pickedLocation;
 
+  void _selectPlace(double lat, double lng){
+    _pickedLocation = PlaceLocation(latitude: lat, longitude: lng);
+  }
   void _selectImage(File pickedImage){
     _pickedImage = pickedImage;
   }
 
   void _savePlace() {
-    // Doesn't let user save place if title is empty or if no picture
-    // Can change, add button or error message as well
-    if(_titleController.text.isEmpty || _pickedImage == null){
+    // Doesn't let user save place if title is empty
+    if(_titleController.text.isEmpty){
       return;
     }
 
     Provider.of<UserPlaces>(context, listen: false)
-        .addPlace(_titleController.text, _pickedImage, _reviewController.text,);
+        .addPlace(_titleController.text, _pickedImage, _reviewController.text, _pickedLocation);
     Navigator.of(context).pop();
   }
 
@@ -61,7 +65,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                 ),
                 SizedBox(height: 10,),
                 ImageInput(_selectImage),
-                LocationInput(),
+                LocationInput(_selectPlace),
               ],
             ),
            ),
