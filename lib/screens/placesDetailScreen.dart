@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 import '../providers/userPlaces.dart';
 import './map_screen.dart';
 
-class PlacesDetailScreen extends StatefulWidget{
+class PlacesDetailScreen extends StatelessWidget{
   static const routeName = '/place-detail';
 
   @override
   Widget build(BuildContext context){
     final id = ModalRoute.of(context).settings.arguments;
     final selectedPlace =
-        Provider.of<UserPlaces>(context, listen: false).findById;
+        Provider.of<UserPlaces>(context, listen: false).findById(id);
     return Scaffold(
       appBar: AppBar(
         title: Text(selectedPlace.title),
