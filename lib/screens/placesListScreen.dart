@@ -8,19 +8,22 @@ class PlacesListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Your Hot Spotz'),
+        title: Text('Hot Spotz'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.add_box), 
+            icon: Icon(Icons.add_box),
             onPressed: () {
-              Navigator.of(context).pushNamed(AddPlaceScreen.routeName); 
+              Navigator.of(context).pushNamed(AddPlaceScreen.routeName);
             },
           ),
         ],
       ),
+      // CONSUMER IS REPLACED WITH FUTURE BUILDER WIDGET IN UDEMY
+      // FUTURE BUILDER WIDGET CALLS SET AND GET FUNCTION TO HAVE APP DISPLAY
+      // LOCATIONS FROM THE DATABASE UPON OPENING --- WILL NEED TO IMPLEMENTED WITH MYSQL
       body: Consumer<UserPlaces>(
         child: Center(
-          child: const Text('No Hot Spotz just yet! Add now!'),
+          child: const Text('No Hot Spotz just yet!'),
         ),
         builder: (ctx, userPlaces, ch) => userPlaces.items.length <= 0
             ? ch

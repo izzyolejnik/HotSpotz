@@ -3,6 +3,7 @@ import '../widgets/image_input.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import '../providers/userPlaces.dart';
+import '../widgets/locationInput.dart';
 
 class AddPlaceScreen extends StatefulWidget {
 
@@ -15,6 +16,8 @@ class AddPlaceScreen extends StatefulWidget {
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   final _titleController = TextEditingController();
+  final _reviewController = TextEditingController();
+
   File _pickedImage;
 
   void _selectImage(File pickedImage){
@@ -29,7 +32,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
     }
 
     Provider.of<UserPlaces>(context, listen: false)
-        .addPlace(_titleController.text, _pickedImage);
+        .addPlace(_titleController.text, _pickedImage, _reviewController.text,);
     Navigator.of(context).pop();
   }
 
@@ -52,8 +55,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                   decoration: InputDecoration(labelText: 'Title'),
                   controller: _titleController,
                 ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Review'),
+                  controller: _reviewController,
+                ),
                 SizedBox(height: 10,),
                 ImageInput(_selectImage),
+                LocationInput(),
               ],
             ),
            ),

@@ -3,6 +3,10 @@
 <plist version="1.0">
 <dict>
     <
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>To Access your Current Location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>To Access your Location</string>
     <key>io.flutter.embedded_views_preview</key>
     <true/>
 	<key>CFBundleDevelopmentRegion</key>

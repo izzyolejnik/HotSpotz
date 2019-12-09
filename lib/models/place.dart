@@ -17,12 +17,14 @@ class Place {
   final String id;
   final String title;
   final PlaceLocation location;
+  final String review;
   final File image;
 
   Place({
     @required this.id,
     @required this.title,
     @required this.location,
+    this.review,
     this.image,
   });
 }
