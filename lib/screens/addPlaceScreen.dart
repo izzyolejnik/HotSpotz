@@ -16,8 +16,11 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
-  final _titleController = TextEditingController();
+  final _nameController = TextEditingController();
   final _reviewController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _numberController = TextEditingController();
+
 
   File _pickedImage;
   PlaceLocation _pickedLocation;
@@ -31,14 +34,12 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
 
   void _savePlace() {
     // Doesn't let user save place if title is empty
-    if(_titleController.text.isEmpty ||
-        _pickedImage == null ||
-        _reviewController.text.isEmpty){
+    if(_nameController.text.isEmpty){
       return;
     }
 
     Provider.of<UserPlaces>(context, listen: false)
-        .addPlace(_titleController.text, _pickedImage, _reviewController.text, _pickedLocation);
+        .addPlace(_nameController.text, _addressController.text, _numberController.text, _reviewController.text, _pickedImage, _pickedLocation);
     Navigator.of(context).pop();
   }
 
@@ -58,11 +59,19 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               child: Column(
               children: <Widget>[
                 TextField(
-                  decoration: InputDecoration(labelText: 'Title'),
-                  controller: _titleController,
+                  decoration: InputDecoration(labelText: 'Name of Spot'),
+                  controller: _nameController,
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: 'Review'),
+                  decoration: InputDecoration(labelText: 'Address'),
+                  controller: _addressController,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Phone Number'),
+                  controller: _numberController,
+                ),
+                TextField(
+                  decoration: InputDecoration(labelText: 'Review (1-5)'),
                   controller: _reviewController,
                 ),
                 SizedBox(height: 10,),

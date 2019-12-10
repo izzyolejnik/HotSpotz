@@ -51,9 +51,13 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
           ),
         ],
       ),
+
+
       // CONSUMER IS REPLACED WITH FUTURE BUILDER WIDGET IN UDEMY
       // FUTURE BUILDER WIDGET CALLS SET AND GET FUNCTION TO HAVE APP DISPLAY
       // LOCATIONS FROM THE DATABASE UPON OPENING --- WILL NEED TO IMPLEMENTED WITH MYSQL
+
+
       body: Consumer<UserPlaces>(
         child: Center(
           //child: const Text('No Hot Spotz just yet!'),
@@ -69,11 +73,11 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                         userPlaces.items[i].image
                     ),
                   ),
-                  title: Text(userPlaces.items[i].title),
+                  title: Text(userPlaces.items[i].name),
                   subtitle: Text(userPlaces.items[i].location.address),
                   onTap: () {
                     Navigator.of(context).pushNamed(
-                      PlacesDetailScreen.routeName, arguments: userPlaces.items[i].id,
+                      PlacesDetailScreen.routeName, arguments: userPlaces.items[i].name,
                     );
                   }
                 ),

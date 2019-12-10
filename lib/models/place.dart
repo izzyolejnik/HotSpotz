@@ -14,17 +14,19 @@ class PlaceLocation {
   });
 }
 class Place {
-  final String id;
-  final String title;
-  final PlaceLocation location;
+  final String name;
+  final String address;
+  final String number;
   final String review;
+  final PlaceLocation location;
   final File image;
 
   Place({
-    @required this.id,
-    @required this.title,
-    @required this.location,
+    @required this.name,
+    @required this.address,
+    this.number,
     this.review,
+    this.location,
     this.image,
   });
 }

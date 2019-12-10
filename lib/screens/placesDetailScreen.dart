@@ -8,12 +8,12 @@ class PlacesDetailScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context){
-    final id = ModalRoute.of(context).settings.arguments;
+    final name = ModalRoute.of(context).settings.arguments;
     final selectedPlace =
-        Provider.of<UserPlaces>(context, listen: false).findById(id);
+        Provider.of<UserPlaces>(context, listen: false).findById(name);
     return Scaffold(
       appBar: AppBar(
-        title: Text(selectedPlace.title),
+        title: Text(selectedPlace.name),
       ),
     body: Column(children: <Widget>[
       Container(
