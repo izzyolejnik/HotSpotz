@@ -4,7 +4,7 @@ import '../providers/userPlaces.dart';
 import './map_screen.dart';
 
 class PlacesDetailScreen extends StatelessWidget{
-  static const routeName = '/place-detail';
+  //static const routeName = '/place-detail';
 
   @override
   Widget build(BuildContext context){

@@ -4,7 +4,6 @@ import './addPlaceScreen.dart';
 import '../models/place.dart';
 
 import 'package:http/http.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 Future<Place> fetchPost() async {
@@ -14,8 +13,6 @@ Future<Place> fetchPost() async {
 
   Response response = await post(url, headers: headers, body: jsonString);
 
-  print("hello");
-
   // If the call to the server was successful, parse the JSON.
   return Place.fromJson(json.decode(response.body));
 }
@@ -23,7 +20,7 @@ Future<Place> fetchPost() async {
 Future<Place> fetchCategory(String category) async {
   String url = 'http://kissmethruthephone.com/sort.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString = '{"Verified":1,"Category":'+category + '}';
+  String jsonString = '{"Verified":1,"Category":'+ category + '}';
 
   Response response = await post(url, headers: headers, body: jsonString);
 
@@ -31,17 +28,10 @@ Future<Place> fetchCategory(String category) async {
   return Place.fromJson(json.decode(response.body));
 }
 
-Future<Place> fetchPlace(String place) async {
-  String url = 'http://kissmethruthephone.com/searchLocation.php';
-  Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString = '{"Verified":1, "search":"Best Buy"}';
-
-  Response response = await post(url, headers: headers, body: jsonString);
-
-  // If the call to the server was successful, parse the JSON.
-  return Place.fromJson(json.decode(response.body));
+class PassName{
+  final String name;
+  PassName(this.name);
 }
-
 
 class PlacesListScreen extends StatefulWidget {
   // don't know what this does but without it
@@ -71,10 +61,9 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
   void initState() {
     super.initState();
     post = fetchPost();
-    print("finished");
   }
 
- 
+
   FutureBuilder generateList() {
     ListView lv;
 
@@ -91,52 +80,20 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
                 itemBuilder: (context, index) {
                   return FlatButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/place-detail');
+                      Navigator.pushNamed(
+                          context,
+                          '/details-place',
+                      arguments: PassName(names[index])
+                      );
                     },
                     child: new Text('${names[index]}'),
                   );
-                 
+
                 },
               );
               // return the list
               return lv;
-            } 
-            else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
             }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        );
-        return fb;
-  }
-
-    FutureBuilder generateDetails() {
-    ListView lv;
-
-        // Make the page display the list.
-        FutureBuilder fb = FutureBuilder<Place>(
-          future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // names = the list of names
-              names = snapshot.data.name;
-              // build the list
-              lv = ListView.builder(
-                itemCount: names.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${names[index]}'),
-                 //   title: Text('${names[index]}'),
-
-                  );
-                 
-                },
-              );
-              // return the list
-              return lv;
-            } 
             else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
@@ -170,7 +127,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
         break;
 
       case 3:
-        post = fetchPlace("should be best buy");
+        post = fetchCategory("3");
         child = generateList();
         break;
 

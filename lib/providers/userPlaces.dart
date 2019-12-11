@@ -5,8 +5,6 @@ import '../models/place.dart';
 import 'dart:io';
 import '../helpers/locationHelper.dart';
 import 'package:http/http.dart';
-import 'package:mysql1/mysql1.dart' as sql;
-import '../helpers/dbHelper.dart';
 
 class UserPlaces with ChangeNotifier {
   List<Place> _items = [];
@@ -55,7 +53,6 @@ class UserPlaces with ChangeNotifier {
   }
 
   Future<void> addLocation(Map<String, dynamic> data) async {
-    print('adding a location');
     String url = 'http://kissmethruthephone.com/addLocation.php';
     Map<String, String> headers = {"Content-type": "application/json"};
 

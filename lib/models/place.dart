@@ -42,9 +42,6 @@ class Place {
 
 
   factory Place.fromJson(Map<String, dynamic> json) {
-    print(json['Name']);
-    print(json['Address']);
-
     return Place(
       name: json['Name'],
       address: json['Address'],
@@ -53,8 +50,6 @@ class Place {
       distance: json['Distance'],
       category: json['Category'],
       id: json['Id'],
-
-      //jsonBody: json,
     );
   }
 }
