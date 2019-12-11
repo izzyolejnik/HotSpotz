@@ -1,4 +1,4 @@
-package com.example.hotspotz
+package com.poop.hotspotz
 
 import android.os.Bundle
 
