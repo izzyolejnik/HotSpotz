@@ -20,6 +20,18 @@ Future<Place> fetchPost() async {
   return Place.fromJson(json.decode(response.body));
 }
 
+Future<Place> fetchCategory(String category) async {
+  String url = 'http://kissmethruthephone.com/sort.php';
+  Map<String, String> headers = {"Content-type": "application/json"};
+  String jsonString = '{"Verified":1,"Category":'+category + '}';
+
+  Response response = await post(url, headers: headers, body: jsonString);
+
+  print("hello");
+
+  // If the call to the server was successful, parse the JSON.
+  return Place.fromJson(json.decode(response.body));
+}
 
 class PlacesListScreen extends StatefulWidget {
   // don't know what this does but without it
@@ -52,18 +64,12 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     print("finished");
   }
 
-  Widget build(BuildContext context) {
-    Widget child = Container();
-
-    switch (_selectedIndex) {
-
-      case 0:
-
-        // The list that gets displayed
-        ListView lv;
+ 
+  FutureBuilder generateList() {
+    ListView lv;
 
         // Make the page display the list.
-        child = FutureBuilder<Place>(
+        FutureBuilder fb = FutureBuilder<Place>(
           future: post,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -73,9 +79,13 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
               lv = ListView.builder(
                 itemCount: names.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${names[index]}'),
+                  return FlatButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/place-detail');
+                    },
+                    child: new Text('${names[index]}'),
                   );
+                 
                 },
               );
               // return the list
@@ -89,12 +99,35 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
             return CircularProgressIndicator();
           },
         );
+        return fb;
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    Widget child = Container();
+
+    switch (_selectedIndex) {
+
+      case 0:
+        post = fetchPost();
+        child = generateList();
         break;
 
       case 1:
-        child = FlutterLogo();
+        post = fetchCategory("1");
+        child = generateList();
         break;
+
+      case 2:
+        post = fetchCategory("2");
+        child = generateList();
+        break;
+
+      case 3:
+        post = fetchCategory("3");
+        child = generateList();
+        break;
+
     }
 
     return Scaffold(
