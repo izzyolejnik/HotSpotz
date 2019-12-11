@@ -64,7 +64,7 @@ class _LocationInputState extends State<LocationInput>{
             ),
             child: _previewImageUrl == null
                 ? Text(
-                    'No Location Chosen',
+                    'Look on the map',
                     textAlign:  TextAlign.center,
                   )
                 : Image.network(
@@ -80,7 +80,7 @@ class _LocationInputState extends State<LocationInput>{
               icon: Icon(
                 Icons.location_on,
               ),
-             label: Text('Current Location',),
+             label: Text('See Current Location',),
              textColor: Colors.black,
              onPressed: _getCurrentUserLocation,
             ),
@@ -88,7 +88,7 @@ class _LocationInputState extends State<LocationInput>{
               icon: Icon(
                 Icons.map,
               ),
-              label: Text('Select on Map',),
+              label: Text('Click to view Map',),
               textColor: Colors.black,
               onPressed: _selectOnMap,
          ),

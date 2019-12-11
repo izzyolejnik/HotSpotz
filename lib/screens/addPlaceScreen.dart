@@ -8,9 +8,9 @@ import '../models/place.dart';
 
 class AddPlaceScreen extends StatefulWidget {
 
-  static const routeName = '/ add-place';
+  static const routeName = '/add-place';
 
-  @override 
+  @override
   _AddPlaceScreenState createState() => _AddPlaceScreenState();
 }
 
@@ -38,6 +38,18 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
       return;
     }
 
+    if (_addressController.text.isEmpty){
+      _addressController.text = "";
+    }
+
+    if (_numberController.text.isEmpty){
+      _numberController.text = "";
+    }
+
+    if (_reviewController.text.isEmpty){
+      _reviewController.text = "";
+    }
+
     Provider.of<UserPlaces>(context, listen: false)
         .addPlace(_nameController.text, _addressController.text, _numberController.text, _reviewController.text, _pickedImage, _pickedLocation);
     Navigator.of(context).pop();
@@ -59,7 +71,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               child: Column(
               children: <Widget>[
                 TextField(
-                  decoration: InputDecoration(labelText: 'Name of Spot'),
+                  decoration: InputDecoration(labelText: 'Name of Spot (Required)'),
                   controller: _nameController,
                 ),
                 TextField(
@@ -83,13 +95,13 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
           ),
         ),
         RaisedButton.icon(
-          icon: Icon(Icons.add), 
+          icon: Icon(Icons.add),
           label: Text('Add Place'),
           onPressed: _savePlace,
           elevation: 0,
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           color: Theme.of(context).accentColor,
-           // accent color is defined in main 
+           // accent color is defined in main
           )
       ],),
     );
