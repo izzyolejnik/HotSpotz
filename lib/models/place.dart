@@ -20,13 +20,22 @@ class Place {
   final String review;
   final PlaceLocation location;
   final File image;
+  String jsonBody;
 
   Place({
-    @required this.name,
-    @required this.address,
+    this.name,
+    this.address,
     this.number,
     this.review,
     this.location,
     this.image,
+    this.jsonBody,
   });
+
+
+  factory Place.fromJson(String json) {
+    return Place(
+      jsonBody: json,
+    );
+  }
 }

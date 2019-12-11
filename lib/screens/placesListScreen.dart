@@ -4,45 +4,25 @@ import '../providers/userPlaces.dart';
 import './addPlaceScreen.dart';
 import './placesDetailScreen.dart';
 import 'package:http/http.dart';
+import '../models/place.dart';
 
-Future<Post> fetchPost() async {
+
+Future<Place> fetchPost() async {
   String url = 'http://kissmethruthephone.com/sort.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString =
-      '{"Verified":1, "Category":1}';
+  String jsonString = '{"Verified":1, "Category":1}';
 
   Response response = await post(url, headers: headers, body: jsonString);
 
   // If the call to the server was successful, parse the JSON.
-  return Post.fromJson(response.body);
-}
-
-class Post {
-  final String jsonBody;
-
-  Post({this.jsonBody});
-
-  // factory Post.fromJson(Map<String, dynamic> json) {
-  //   return Post(
-  //     userId: json['userId'],
-  //     id: json['id'],
-  //     title: json['Name'],
-  //     body: json['body'],
-  //   );
-  // }
-
-  factory Post.fromJson(String json) {
-    return Post(
-      jsonBody: json,
-    );
-  }
+  return Place.fromJson(response.body);
 }
 
 class PlacesListScreen extends StatefulWidget {
-    // don't know what this does but without it
-    // it loads forever
-    // api key?
-    PlacesListScreen({Key key}) : super(key: key);
+  // don't know what this does but without it
+  // it loads forever
+  // api key?
+  PlacesListScreen({Key key}) : super(key: key);
 
   @override
   _PlacesListScreenState createState() => _PlacesListScreenState();
@@ -78,7 +58,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     });
   }
 
-  Future<Post> post;
+  Future<Place> post;
 
   @override
   void initState() {
@@ -107,7 +87,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
       // body: Consumer<UserPlaces>(
       //   child: Center(
       //     //child: const Text('No Hot Spotz just yet!'),
-      //     child: _widgetOptions.elementAt(_selectedIndex),
+          // child: _widgetOptions.elementAt(_selectedIndex),
       //   ),
       //   builder: (ctx, userPlaces, ch) => userPlaces.items.length <= 0
       //       ? ch
@@ -131,7 +111,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
       // ),
 
       body: Center(
-        child: FutureBuilder<Post>(
+        child: FutureBuilder<Place>(
           future: post,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
