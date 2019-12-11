@@ -20,11 +20,7 @@ Future<Place> fetchPost() async {
 Future<Place> fetchCategory(String category) async {
   String url = 'http://kissmethruthephone.com/sort.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-<<<<<<< HEAD
-  String jsonString = '{"Verified":1,"Category":'+ category + '}';
-=======
   String jsonString = '{"Verified":1,"Category":' + category + '}';
->>>>>>> 28cb8e663c1d78ecb9b589db7a5000822e446584
 
   Response response = await post(url, headers: headers, body: jsonString);
 
@@ -74,48 +70,6 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     post = fetchPost();
   }
 
-<<<<<<< HEAD
-
-  FutureBuilder generateList() {
-    ListView lv;
-
-        // Make the page display the list.
-        FutureBuilder fb = FutureBuilder<Place>(
-          future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // names = the list of names
-              names = snapshot.data.name;
-              // build the list
-              lv = ListView.builder(
-                itemCount: names.length,
-                itemBuilder: (context, index) {
-                  return FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(
-                          context,
-                          '/details-place',
-                      arguments: PassName(names[index])
-                      );
-                    },
-                    child: new Text('${names[index]}'),
-                  );
-
-                },
-              );
-              // return the list
-              return lv;
-            }
-            else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        );
-        return fb;
-=======
   FutureBuilder generateList() {
     ListView lv;
 
@@ -126,20 +80,17 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
         if (snapshot.hasData) {
           // names = the list of names
           names = snapshot.data.name;
-          addresses = snapshot.data.address;
-          phones = snapshot.data.phone;
-          reviews = snapshot.data.review;
-          distances = snapshot.data.distance;
-          categories = snapshot.data.category;
-          ids = snapshot.data.id;
-
           // build the list
           lv = ListView.builder(
             itemCount: names.length,
             itemBuilder: (context, index) {
               return FlatButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/place-detail');
+                  Navigator.pushNamed(
+                      context,
+                      '/details-place',
+                      arguments: PassName(names[index])
+                  );
                 },
                 child: new Text('${names[index]}'),
               );
@@ -147,7 +98,8 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
           );
           // return the list
           return lv;
-        } else if (snapshot.hasError) {
+        }
+        else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
 
@@ -158,47 +110,6 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     return fb;
   }
 
-  @override
-  FutureBuilder generateDetails() {
-    ListView lv;
-
-    // Make the page display the list.
-    FutureBuilder fb = FutureBuilder<Place>(
-      future: post,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          // names = the list of names
-          names = snapshot.data.name;
-          // build the list
-          lv = ListView(children: <Widget>[
-            ListTile(
-              leading: Icon(Icons.directions),
-              title: Text('${addresses[0]}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.phone),
-              title: Text('${phones[0]}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.star),
-              title: Text('${reviews[0]} stars'),
-            ),
-            ListTile(
-              leading: Icon(Icons.directions_bike),
-              title: Text('${distances[0]} miles'),
-            ),
-          ]);
-        }
-        ;
-        // return the list
-        return lv;
-
-        // By default, show a loading spinner.
-      },
-    );
-    return fb;
->>>>>>> 28cb8e663c1d78ecb9b589db7a5000822e446584
-  }
 
   @override
   Widget build(BuildContext context) {
