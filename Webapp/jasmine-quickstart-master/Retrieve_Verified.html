@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="./jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="./jasmine/jasmine.css">
+
+    <script type="text/javascript" src="./jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="./jasmine/jasmine-html.js"></script>
+    <script type="text/javascript" src="./jasmine/boot.js"></script>
+
+    <script>
+    var urlBase = 'http://kissmethruthephone.com';
+
+    function getLocation(verified)
+    {
+        // In order to grab the correct contacts we need to send the database the userid so we only
+        // receive contacts associated with that user
+        var url = urlBase + '/locations.php';
+
+        globalverified = verified;
+
+        var jsonPayload = '{"Verified" : "' + verified + '"}';
+
+        var xhr = createCORSRequest('GET', url);
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        
+        hideOrShow("Dashboard", false);
+        hideOrShow("Locations", true);
+        
+        try
+        {
+            xhr.send(jsonPayload);
+            
+            xhr.onreadystatechange = function()
+            {
+                if (this.readyState == 4 && this.status == 200)
+                {
+                    var jsonObject = JSON.parse(xhr.responseText);
+                   
+                    if(jsonObject.Id[0] != 10)
+                    {
+                        return 1;
+                    }
+
+                }
+            };
+        }
+        catch(err)
+        {
+        }
+    }
+    function createCORSRequest(method, url) {
+	var xhr = new XMLHttpRequest();
+	if ("withCredentials" in xhr) {
+  
+	  // Check if the XMLHttpRequest object has a "withCredentials" property.
+	  // "withCredentials" only exists on XMLHTTPRequest2 objects.
+	  xhr.open(method, url, true);
+  
+	} else if (typeof XDomainRequest != "undefined") {
+  
+	  // Otherwise, check if XDomainRequest.
+	  // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+	  xhr = new XDomainRequest();
+	  xhr.open(method, url);
+  
+	} else {
+  
+	  // Otherwise, CORS is not supported by the browser.
+	  xhr = null;
+  
+	}
+	return xhr;
+  }
+
+
+        describe('Test to see if getLocation returns verified locations', () => {
+            it('1 should be returned, since an ID thats not 10 is found in the databse', () => {
+                // arrange
+                let verified = 1;
+                // act
+                const result = getLocation(verified);
+
+                // assert
+                expect(result).toBe(1);
+            })
+        });
+    </script>
+</head>
+
+</html>

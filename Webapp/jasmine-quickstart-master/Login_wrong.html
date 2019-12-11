@@ -1,0 +1,93 @@
+<html>
+
+<head>
+    <link rel="shortcut icon" type="image/png" href="./jasmine/jasmine_favicon.png">
+    <link rel="stylesheet" type="text/css" href="./jasmine/jasmine.css">
+
+    <script type="text/javascript" src="./jasmine/jasmine.js"></script>
+    <script type="text/javascript" src="./jasmine/jasmine-html.js"></script>
+    <script type="text/javascript" src="./jasmine/boot.js"></script>
+
+    <script>
+    var urlBase = 'http://kissmethruthephone.com';
+    function doLogin(username, password)
+        {
+            userId = 0;
+
+            var jsonPayload = '{"username" : "' + username + '", "password" : "' + password + '"}';
+            var url = urlBase + '/login.php';
+
+            // send the json
+            var xhr = createCORSRequest('GET', url);
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/json; charset=utf8");
+            
+            try
+            {
+                // send the json information to php
+                xhr.send(jsonPayload);
+
+                xhr.onreadystatechange = function()
+                {
+                    if (this.readyState == 4 && this.status == 200)
+                    {
+                        var jsonObject = JSON.parse(xhr.responseText);
+
+                        userId = jsonObject.id;
+
+                        // if return 0, login was unsuccessful
+                        if( userId < 1 )
+                        {
+                            return 0;
+                        }
+                        
+                        return 1;
+                    }
+                };
+            }
+            catch(err)
+            {
+            }
+        }
+    function createCORSRequest(method, url) {
+	var xhr = new XMLHttpRequest();
+	if ("withCredentials" in xhr) {
+  
+	  // Check if the XMLHttpRequest object has a "withCredentials" property.
+	  // "withCredentials" only exists on XMLHTTPRequest2 objects.
+	  xhr.open(method, url, true);
+  
+	} else if (typeof XDomainRequest != "undefined") {
+  
+	  // Otherwise, check if XDomainRequest.
+	  // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+	  xhr = new XDomainRequest();
+	  xhr.open(method, url);
+  
+	} else {
+  
+	  // Otherwise, CORS is not supported by the browser.
+	  xhr = null;
+  
+	}
+	return xhr;
+  }
+
+
+        describe('Write Your Test Group Descriptions Here', () => {
+            it('Write Your Test Expectation Here', () => {
+                // arrange
+                let username = "tlukas";
+                let password = "money";
+
+                // act
+                const result = doLogin(username, password);
+
+                // assert
+                expect(result).toBe(0);
+            })
+        });
+    </script>
+</head>
+
+</html>
