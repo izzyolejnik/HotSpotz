@@ -1,21 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/userPlaces.dart';
+import 'dart:convert';
+
 import './addPlaceScreen.dart';
-import './placesDetailScreen.dart';
-import 'package:http/http.dart';
 import '../models/place.dart';
+
+import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 
 Future<Place> fetchPost() async {
   String url = 'http://kissmethruthephone.com/sort.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString = '{"Verified":1, "Category":1}';
+  String jsonString = '{"Verified":0}';
 
   Response response = await post(url, headers: headers, body: jsonString);
 
+  print("hello");
+
   // If the call to the server was successful, parse the JSON.
-  return Place.fromJson(response.body);
+  return Place.fromJson(json.decode(response.body));
 }
 
 class PlacesListScreen extends StatefulWidget {
@@ -115,7 +118,7 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
           future: post,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              return Text(snapshot.data.jsonBody);
+              return Text(snapshot.data.address);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }

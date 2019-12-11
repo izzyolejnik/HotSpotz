@@ -16,26 +16,42 @@ class PlaceLocation {
 class Place {
   final String name;
   final String address;
-  final String number;
+  final String phone;
   final String review;
+  final String distance;
+  final String category;
+  final String id;
+
   final PlaceLocation location;
   final File image;
-  String jsonBody;
+  //String jsonBody;
 
   Place({
     this.name,
     this.address,
-    this.number,
+    this.phone,
     this.review,
+    this.distance, 
+    this.category,
+    this.id,
+
     this.location,
     this.image,
-    this.jsonBody,
+    //this.jsonBody,
   });
 
 
-  factory Place.fromJson(String json) {
+  factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
-      jsonBody: json,
+      name: json['Name'],
+      address: json['Address'],
+      phone: json['Phone'],
+      review: json['Review'],
+      distance: json['Distance'],
+      category: json['Category'],
+      id: json['Id'],
+
+      //jsonBody: json,
     );
   }
 }
