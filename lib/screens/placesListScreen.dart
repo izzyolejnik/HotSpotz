@@ -7,11 +7,10 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
-
 Future<Place> fetchPost() async {
-  String url = 'http://kissmethruthephone.com/sort.php';
+  String url = 'http://kissmethruthephone.com/locations.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString = '{"Verified":0}';
+  String jsonString = '{"Verified":1}';
 
   Response response = await post(url, headers: headers, body: jsonString);
 
@@ -20,6 +19,7 @@ Future<Place> fetchPost() async {
   // If the call to the server was successful, parse the JSON.
   return Place.fromJson(json.decode(response.body));
 }
+
 
 class PlacesListScreen extends StatefulWidget {
   // don't know what this does but without it
@@ -36,40 +36,67 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Hot Spotz',
-      style: optionStyle,
-    ),
-    Text(
-      'Food',
-      style: optionStyle,
-    ),
-    Text(
-      'Entertainment',
-      style: optionStyle,
-    ),
-    Text(
-      'Shopping',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
   Future<Place> post;
+  List<dynamic> names;
 
   @override
   void initState() {
     super.initState();
     post = fetchPost();
+    print("finished");
   }
 
   Widget build(BuildContext context) {
+    Widget child = Container();
+
+    switch (_selectedIndex) {
+
+      case 0:
+
+        // The list that gets displayed
+        ListView lv;
+
+        // Make the page display the list.
+        child = FutureBuilder<Place>(
+          future: post,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              // names = the list of names
+              names = snapshot.data.name;
+              // build the list
+              lv = ListView.builder(
+                itemCount: names.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text('${names[index]}'),
+                  );
+                },
+              );
+              // return the list
+              return lv;
+            } 
+            else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
+        );
+
+        break;
+
+      case 1:
+        child = FlutterLogo();
+        break;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Hot Spotz'),
@@ -83,51 +110,8 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
         ],
       ),
 
-      // CONSUMER IS REPLACED WITH FUTURE BUILDER WIDGET IN UDEMY
-      // FUTURE BUILDER WIDGET CALLS SET AND GET FUNCTION TO HAVE APP DISPLAY
-      // LOCATIONS FROM THE DATABASE UPON OPENING --- WILL NEED TO IMPLEMENTED WITH MYSQL
-
-      // body: Consumer<UserPlaces>(
-      //   child: Center(
-      //     //child: const Text('No Hot Spotz just yet!'),
-          // child: _widgetOptions.elementAt(_selectedIndex),
-      //   ),
-      //   builder: (ctx, userPlaces, ch) => userPlaces.items.length <= 0
-      //       ? ch
-      //       : ListView.builder(
-      //           itemCount: userPlaces.items.length,
-      //           itemBuilder: (ctx, i) => ListTile(
-      //             leading: CircleAvatar(
-      //               backgroundImage: FileImage(
-      //                   userPlaces.items[i].image
-      //               ),
-      //             ),
-      //             title: Text(userPlaces.items[i].name),
-      //             subtitle: Text(userPlaces.items[i].location.address),
-      //             onTap: () {
-      //               Navigator.of(context).pushNamed(
-      //                 PlacesDetailScreen.routeName, arguments: userPlaces.items[i].name,
-      //               );
-      //             }
-      //           ),
-      //         ),
-      // ),
-
-      body: Center(
-        child: FutureBuilder<Place>(
-          future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data.address);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
-      ),
+      // changes the page
+      body: SizedBox.expand(child: child),
 
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

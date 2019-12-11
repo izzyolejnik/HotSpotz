@@ -14,13 +14,13 @@ class PlaceLocation {
   });
 }
 class Place {
-  final String name;
-  final String address;
-  final String phone;
-  final String review;
-  final String distance;
-  final String category;
-  final String id;
+  final List<dynamic> name;
+  final List<dynamic> address;
+  final List<dynamic> phone;
+  final List<dynamic> review;
+  final List<dynamic> distance;
+  final List<dynamic> category;
+  final List<dynamic> id;
 
   final PlaceLocation location;
   final File image;
@@ -42,6 +42,8 @@ class Place {
 
 
   factory Place.fromJson(Map<String, dynamic> json) {
+    print(json['Name']);
+
     return Place(
       name: json['Name'],
       address: json['Address'],

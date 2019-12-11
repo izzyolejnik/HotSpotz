@@ -13,7 +13,8 @@ class PlacesDetailScreen extends StatelessWidget{
         Provider.of<UserPlaces>(context, listen: false).findById(name);
     return Scaffold(
       appBar: AppBar(
-        title: Text(selectedPlace.name),
+       // title: Text(selectedPlace.name),
+       //UNCOMMENT LATER
       ),
     body: Column(children: <Widget>[
       Container(
