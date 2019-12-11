@@ -28,8 +28,9 @@ Future<Place> fetchCategory(String category) async {
   return Place.fromJson(json.decode(response.body));
 }
 
-class PassName{
+class PassName {
   final String name;
+
   PassName(this.name);
 }
 
@@ -81,25 +82,25 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
           // names = the list of names
           names = snapshot.data.name;
           // build the list
-          lv = ListView.builder(
+          lv = ListView.separated(
+            padding: const EdgeInsets.all(8),
             itemCount: names.length,
             itemBuilder: (context, index) {
               return FlatButton(
                 onPressed: () {
-                  Navigator.pushNamed(
-                      context,
-                      '/details-place',
-                      arguments: PassName(names[index])
-                  );
+                  Navigator.pushNamed(context, '/details-place',
+                      arguments: PassName(names[index]));
                 },
-                child: new Text('${names[index]}'),
+                child: new Text('${names[index]}',
+                    style: TextStyle(fontSize: 16.0)),
               );
             },
+            separatorBuilder: (BuildContext context, int index) =>
+                const Divider(),
           );
           // return the list
           return lv;
-        }
-        else if (snapshot.hasError) {
+        } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
 
@@ -109,7 +110,6 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     );
     return fb;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +139,10 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hot Spotz'),
+        title: Text(
+          'Hot Spotz',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 27.0),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add_box),
@@ -157,23 +160,23 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text('Spotz'),
+            title: Text('All Spotz'),
             backgroundColor: Colors.amberAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_dining),
             title: Text('Food'),
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             title: Text('Entertainment'),
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: Colors.deepPurpleAccent,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shop),
             title: Text('Shopping'),
-            backgroundColor: Colors.amberAccent,
+            backgroundColor: Colors.deepOrangeAccent,
           ),
         ],
         currentIndex: _selectedIndex,

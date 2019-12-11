@@ -1,10 +1,11 @@
+import 'dart:io';
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:convert';
-import '../models/place.dart';
-import 'dart:io';
-import '../helpers/locationHelper.dart';
 import 'package:http/http.dart';
+
+import '../models/place.dart';
 
 class UserPlaces with ChangeNotifier {
   List<Place> _items = [];
@@ -18,13 +19,13 @@ class UserPlaces with ChangeNotifier {
   }
 
   Future<void> addPlace(
-      String pickedName,
-      String pickedAddress,
-      String pickedNumber,
-      String pickedReview,
-      File pickedImage,
-      PlaceLocation pickedLocation,) async {
-
+    String pickedName,
+    String pickedAddress,
+    String pickedNumber,
+    String pickedReview,
+    File pickedImage,
+    PlaceLocation pickedLocation,
+  ) async {
 //    final address = await LocationHelper.getPlaceAddress(
 //        pickedLocation.latitude, pickedLocation.longitude);
 //    final updatedLocation = PlaceLocation(
@@ -49,13 +50,13 @@ class UserPlaces with ChangeNotifier {
       "Review": pickedReview,
     };
     addLocation(locationData);
-
   }
 
   Future<void> addLocation(Map<String, dynamic> data) async {
     String url = 'http://kissmethruthephone.com/addLocation.php';
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    Response response = await post(url, headers: headers, body: json.encode(data));
+    Response response =
+        await post(url, headers: headers, body: json.encode(data));
   }
 }

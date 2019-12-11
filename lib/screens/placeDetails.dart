@@ -32,7 +32,7 @@ class _PlaceDetails extends State<PlaceDetails> {
 
     final Map<String, dynamic> locationToShow = {
       "Verified": 1,
-      "Name": "${args.name}",
+      "search": "${args.name}",
     };
 
     Future<Place> post = fetchPlace(locationToShow);
@@ -51,55 +51,47 @@ class _PlaceDetails extends State<PlaceDetails> {
           phone = snapshot.data.phone;
           review = snapshot.data.review;
           distance = snapshot.data.distance;
-          print('${address[0]}');
-          print('${phone[0]}');
-          print('${review[0]}');
-          print('${distance[0]}');
-          print('${name[0]}');
-
 
           return Scaffold(
               appBar: AppBar(title: Text('${name[0]}')),
               body: Column(children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.directions),
+                  leading: Icon(
+                    Icons.directions,
+                    color: Colors.redAccent,
+                    size: 30.0,
+                  ),
                   title: Text('${address[0]}'),
                 ),
+                Spacer(),
                 ListTile(
-                  leading: Icon(Icons.phone),
+                  leading: Icon(
+                    Icons.phone,
+                    color: Colors.green,
+                    size: 30.0,
+                  ),
                   title: Text('${phone[0]}'),
                 ),
+                Spacer(),
                 ListTile(
-                  leading: Icon(Icons.star),
-                  title: Text('${review[0]}'),
+                  leading: Icon(
+                    Icons.star,
+                    color: Colors.yellow,
+                    size: 30.0,
+                  ),
+                  title: Text('${review[0]} / 5 stars'),
                 ),
+                Spacer(),
                 ListTile(
-                  leading: Icon(Icons.directions_bike),
-                  title: Text('${distance[0]}'),
+                  leading: Icon(
+                    Icons.directions_bike,
+                    color: Colors.black,
+                    size: 30.0,
+                  ),
+                  title: Text('${distance[0]} miles from UCF'),
                 ),
-              ]
-              )
-          );
-
-//          return ListView(children: <Widget>[
-//            ListTile(
-//              leading: Icon(Icons.directions),
-//              title: Text('${address[0]}'),
-//            ),
-//            ListTile(
-//              leading: Icon(Icons.phone),
-//              title: Text('${phone[0]}'),
-//            ),
-//            ListTile(
-//              leading: Icon(Icons.star),
-//              title: Text('${review[0]}'),
-//            ),
-//            ListTile(
-//              leading: Icon(Icons.directions_bike),
-//              title: Text('${distance[0]}'),
-//            ),
-//          ]
-//        );
+                Spacer(flex: 7),
+              ]));
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         } else {

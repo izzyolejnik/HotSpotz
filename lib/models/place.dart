@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 
 class PlaceLocation {
@@ -13,6 +12,7 @@ class PlaceLocation {
     this.address,
   });
 }
+
 class Place {
   final List<dynamic> name;
   final List<dynamic> address;
@@ -24,6 +24,7 @@ class Place {
 
   final PlaceLocation location;
   final File image;
+
   //String jsonBody;
 
   Place({
@@ -31,15 +32,13 @@ class Place {
     this.address,
     this.phone,
     this.review,
-    this.distance, 
+    this.distance,
     this.category,
     this.id,
-
     this.location,
     this.image,
     //this.jsonBody,
   });
-
 
   factory Place.fromJson(Map<String, dynamic> json) {
     return Place(
