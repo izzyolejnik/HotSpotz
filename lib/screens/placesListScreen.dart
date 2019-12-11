@@ -23,7 +23,7 @@ Future<Place> fetchPost() async {
 Future<Place> fetchCategory(String category) async {
   String url = 'http://kissmethruthephone.com/sort.php';
   Map<String, String> headers = {"Content-type": "application/json"};
-  String jsonString = '{"Verified":1,"Category":'+category + '}';
+  String jsonString = '{"Verified":1,"Category":' + category + '}';
 
   Response response = await post(url, headers: headers, body: jsonString);
 
@@ -41,7 +41,6 @@ Future<Place> fetchPlace(String place) async {
   // If the call to the server was successful, parse the JSON.
   return Place.fromJson(json.decode(response.body));
 }
-
 
 class PlacesListScreen extends StatefulWidget {
   // don't know what this does but without it
@@ -64,8 +63,15 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
       _selectedIndex = index;
     });
   }
+
   Future<Place> post;
   List<dynamic> names;
+  List<dynamic> addresses;
+  List<dynamic> phones;
+  List<dynamic> reviews;
+  List<dynamic> distances;
+  List<dynamic> categories;
+  List<dynamic> ids;
 
   @override
   void initState() {
@@ -74,78 +80,87 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     print("finished");
   }
 
- 
   FutureBuilder generateList() {
     ListView lv;
 
-        // Make the page display the list.
-        FutureBuilder fb = FutureBuilder<Place>(
-          future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // names = the list of names
-              names = snapshot.data.name;
-              // build the list
-              lv = ListView.builder(
-                itemCount: names.length,
-                itemBuilder: (context, index) {
-                  return FlatButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/place-detail');
-                    },
-                    child: new Text('${names[index]}'),
-                  );
-                 
-                },
-              );
-              // return the list
-              return lv;
-            } 
-            else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
+    // Make the page display the list.
+    FutureBuilder fb = FutureBuilder<Place>(
+      future: post,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          // names = the list of names
+          names = snapshot.data.name;
+          addresses = snapshot.data.address;
+          phones = snapshot.data.phone;
+          reviews = snapshot.data.review;
+          distances = snapshot.data.distance;
+          categories = snapshot.data.category;
+          ids = snapshot.data.id;
 
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        );
-        return fb;
+          // build the list
+          lv = ListView.builder(
+            itemCount: names.length,
+            itemBuilder: (context, index) {
+              return FlatButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/place-detail');
+                },
+                child: new Text('${names[index]}'),
+              );
+            },
+          );
+          // return the list
+          return lv;
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        // By default, show a loading spinner.
+        return CircularProgressIndicator();
+      },
+    );
+    return fb;
   }
 
-    FutureBuilder generateDetails() {
+  @override
+  FutureBuilder generateDetails() {
     ListView lv;
 
-        // Make the page display the list.
-        FutureBuilder fb = FutureBuilder<Place>(
-          future: post,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              // names = the list of names
-              names = snapshot.data.name;
-              // build the list
-              lv = ListView.builder(
-                itemCount: names.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text('${names[index]}'),
-                 //   title: Text('${names[index]}'),
+    // Make the page display the list.
+    FutureBuilder fb = FutureBuilder<Place>(
+      future: post,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          // names = the list of names
+          names = snapshot.data.name;
+          // build the list
+          lv = ListView(children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.directions),
+              title: Text('${addresses[0]}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.phone),
+              title: Text('${phones[0]}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('${reviews[0]} stars'),
+            ),
+            ListTile(
+              leading: Icon(Icons.directions_bike),
+              title: Text('${distances[0]} miles'),
+            ),
+          ]);
+        }
+        ;
+        // return the list
+        return lv;
 
-                  );
-                 
-                },
-              );
-              // return the list
-              return lv;
-            } 
-            else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        );
-        return fb;
+        // By default, show a loading spinner.
+      },
+    );
+    return fb;
   }
 
   @override
@@ -153,7 +168,6 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
     Widget child = Container();
 
     switch (_selectedIndex) {
-
       case 0:
         post = fetchPost();
         child = generateList();
@@ -170,10 +184,9 @@ class _PlacesListScreenState extends State<PlacesListScreen> {
         break;
 
       case 3:
-        post = fetchPlace("should be best buy");
+        post = fetchCategory("3");
         child = generateList();
         break;
-
     }
 
     return Scaffold(
